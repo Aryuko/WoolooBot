@@ -1,0 +1,23 @@
+{
+  "name": "wooloobot",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aryuko/WoolooBot.git"
+  },
+  "author": "Aryuko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aryuko/WoolooBot/issues"
+  },
+  "homepage": "https://github.com/Aryuko/WoolooBot#readme",
+  "dependencies": {
+    "tmi.js": "^1.4.5"
+  }
+}

@@ -1,0 +1,15 @@
+module.exports = {
+	options: {
+		debug: true
+	},
+	connection: {
+		reconnect: true
+	},
+	identity: {
+		username: "username",
+		password: "password",
+	},
+	channels: ['channel']
+}
+
+// Create a file called config.js following this template
