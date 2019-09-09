@@ -22,7 +22,8 @@ client.on('chat', (channel, userstate, message, self) => {
 
         if(!recentPokemonCommand || (now - recentPokemonCommand) > config.cooldown) {
             // November 15, 2019
-            let str = timeToString(new Date('2019-11-15T03:00:00').getTime() - now)
+            let releaseDate = new Date('2019-11-15T03:00:00').getTime()
+            let str = timeToString(releaseDate - now)
             client.say(channel, 'Pokémon Sword and Shield is released in ' + str)
             recentPokemonCommand = now
         }
@@ -31,13 +32,24 @@ client.on('chat', (channel, userstate, message, self) => {
 
 /* utils */
 function timeToString (millisec) {
-	var seconds = Math.floor(millisec / 1000);
-	var minutes = Math.floor(millisec / (1000 * 60));
-	var hours   = Math.floor(millisec / (1000 * 60 * 60));
-	var days    = Math.floor(millisec / (1000 * 60 * 60 * 24));
+	var seconds = Math.floor(millisec / 1000)
+	var minutes = Math.floor(millisec / (1000 * 60))
+	var hours   = Math.floor(millisec / (1000 * 60 * 60))
+    var days    = Math.floor(millisec / (1000 * 60 * 60 * 24))
+    
+    let str
 
-	if      (seconds < 60)  { return seconds + " seconds"; }
-	else if (minutes < 60)  { return minutes + " minutes"; }
-	else if (hours < 24)    { return hours + " hours"; }
-	else                    { return days + " days and " + hours % 24 + " hours" }
+	if      (seconds < 60)  { str = seconds + " seconds" }
+	else if (minutes < 60)  { str = minutes + " minutes" }
+	else if (hours < 24)    { str = hours + " hours" }
+    else                    { str = days + " days and " + hours % 24 + " hours" }
+    
+    if      (days < 1)      { str += ", THAT'S SOOOON!! FeelsAmazingMan FeelsAmazingMan FeelsAmazingMan" }
+    else if (days < 7)      { str += ", NOT LONG NOW! FeelsAmazingMan" }
+    else if (days < 14)     { str += ", less than two weeks!! PogChamp" }
+    else if (days < 30)     { str += ", less than a month, not bad!" }
+    else if (days < 60)     { str += ", still quite a long time FeelsBadMan" }
+    else if (days > 60)     { str += ", that's over two months FeelsBadMan FeelsBadMan" }
+
+    return str
 }
