@@ -14,8 +14,8 @@ client.connect()
 
 var recentPokemonCommand = false
 client.on('chat', (channel, userstate, message, self) => {
+    if (self) { return }
     let msg = message.toLowerCase()
-    if(self) return;
 
     if(msg.includes('when') && (msg.includes('pokemon') || msg.includes('pokémon'))){
         let now = new Date().getTime()
