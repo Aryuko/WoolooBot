@@ -7,7 +7,7 @@ module.exports = {
 	},
 	identity: {
 		username: "username",
-		password: "password",
+		password: "password", // https://twitchapps.com/tmi/
 	},
 	channels: ['channel']
 }
