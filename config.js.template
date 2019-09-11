@@ -9,7 +9,9 @@ module.exports = {
 		username: "username",
 		password: "password", // https://twitchapps.com/tmi/
 	},
-	channels: ['channel']
+	channels: ['channel'],
+	cooldown: 5000,
+	webhookUrl: "url"
 }
 
 // Create a file called config.js following this template

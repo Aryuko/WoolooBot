@@ -9,6 +9,9 @@
 const tmi = require('tmi.js')
 const config = require('../config.js')
 const fetch = require('node-fetch')
+const wh = require('webhook-discord')
+
+const discordHook = new wh.Webhook(config.webhookUrl)
 
 const client = new tmi.client(config)
 client.connect()
@@ -41,13 +44,25 @@ client.on('chat', (channel, userstate, message, self) => {
                     } else {
                         // Aryu is not in chat
                         client.say(channel, 'Attempting to summon Aryu 👀')
-                        
+
+                        summonAryu(channel, userstate.username)
                     }
                 })
             }
         }
     }
 })
+
+function summonAryu(channel, username) {
+    let msg = new wh.MessageBuilder()
+        .setName("WoolooBot")
+        .setColor("#6441A4")
+        .setText("<@!106109569486315520>")
+        .addField("Aryu, you are being summoned!", `${username} wants you you to join https://www.twitch.tv/${channel.replace(/#/, '')}`)
+        .setTime()
+
+        discordHook.send(msg)
+}
 
 /* twitch api */
 function fetchChatters(channel) {
