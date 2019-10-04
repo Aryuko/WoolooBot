@@ -17,6 +17,7 @@ const client = new tmi.client(config)
 client.connect()
 
 var recentPokemonCommand = false
+var recentACCommand = false
 var recentSummon = false
 
 client.on('chat', (channel, userstate, message, self) => {
@@ -32,6 +33,16 @@ client.on('chat', (channel, userstate, message, self) => {
             let str = timeToString(releaseDate - now)
             client.say(channel, 'Pokémon Sword and Shield is released in ' + str)
             recentPokemonCommand = now
+        }
+    } else if (msg.includes('when') && (msg.includes('animal crossing') || msg.includes('new horizons'))){
+        let now = new Date().getTime()
+
+        if (!recentACCommand || (now - recentACCommand) > config.cooldown) {
+            // March 20, 2020
+            let releaseDate = new Date('2020-03-20T03:00:00').getTime()
+            let str = timeToString(releaseDate - now)
+            client.say(channel, 'Animal Crossing: New Horizons is released in ' + str)
+            recentACCommand = now
         }
     } else if (msg.includes('summon aryu') || msg.includes('aryu summon')) {
         let now = new Date().getTime()
