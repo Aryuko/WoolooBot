@@ -12,16 +12,17 @@ class MessageHandler {
         this.commandCooldowns = {}
         this.commandState = {
             summon: {
-                present: []
+                present: [],
+                lastSuccess: false
             }
         }
     }
 
     handleMessage (message, channel, userstate) {
         let input = this.parseInput(message)
-        console.log(input)
-
+        
         if(input && input.command) {
+            console.log(input)
             switch (input.command) {
                 case 'releasedate':
                 case 'release':
@@ -76,14 +77,13 @@ class MessageHandler {
                     this.client.say(channel, `Invalid game D: List of valid games: 'ac', 'pokemon'`)
                     return;
             }
-            let timeString = this.timeToString(releaseDate - now)
+            let timeString = this.timeToString(releaseDate - now, true)
             this.client.say(channel, gameString + timeString)
             this.commandCooldowns.releasedate = now
         }
     }
 
     summonCommand(user, channel, invoker) {
-        console.log('present', this.commandState.summon.present)
         let now = new Date().getTime()
         if(!this.commandCooldowns.summon || (now - this.commandCooldowns.summon) > this.config.cooldown) {
             switch (user) {
@@ -96,8 +96,14 @@ class MessageHandler {
                                 this.client.say(channel, `Aryu is already in chat! Try using a ping: @Aryu aryu5Aww`)
                             } else {
                                 // Aryu is not in chat
-                                this.client.say(channel, 'Attempting to summon Aryu 👀')
-                                this.summonAryu(channel, invoker)
+                                if(!this.commandCooldowns.successfulSummon || (now - this.commandCooldowns.successfulSummon) > this.config.summonCooldown) {
+                                    this.client.say(channel, 'Attempting to summon Aryu 👀')
+                                    this.summonAryu(channel, invoker)
+                                    this.commandCooldowns.successfulSummon = now
+                                } else {
+                                    let timeString = this.timeToString(this.config.summonCooldown + this.commandCooldowns.successfulSummon - now)
+                                    this.client.say(channel, `Hey, I think you should wait another ${timeString} before trying to summon again >:o I don't want to spam her!`)
+                                }
                             }
                         })
                     }
@@ -107,6 +113,7 @@ class MessageHandler {
                     this.client.say(channel, 'I only have permission to summon Aryu aryu5Cry')
                     break;
             }
+            this.commandCooldowns.summon = now
         }
     }
 
@@ -119,7 +126,7 @@ class MessageHandler {
         return false
     }
 
-    timeToString (millisec) {
+    timeToString (millisec, withText = false) {
         var seconds = Math.floor(millisec / 1000)
         var minutes = Math.floor(millisec / (1000 * 60))
         var hours   = Math.floor(millisec / (1000 * 60 * 60))
@@ -132,12 +139,14 @@ class MessageHandler {
         else if (hours < 24)    { str = hours + " hours" }
         else                    { str = days + " days and " + hours % 24 + " hours" }
         
-        if      (days < 1)      { str += ", THAT'S SOOOON!! FeelsAmazingMan aryu5Aww FeelsAmazingMan aryu5Aww" }
-        else if (days < 7)      { str += ", NOT LONG NOW! FeelsAmazingMan aryu5Aww" }
-        else if (days < 14)     { str += ", less than two weeks!! PogChamp" }
-        else if (days < 30)     { str += ", less than a month, not bad!" }
-        else if (days < 60)     { str += ", still quite a long time FeelsBadMan" }
-        else if (days > 60)     { str += ", that's over two months FeelsBadMan FeelsBadMan" }
+        if(withText) {
+            if      (days < 1)      { str += ", THAT'S SOOOON!! FeelsAmazingMan aryu5Aww FeelsAmazingMan aryu5Aww" }
+            else if (days < 7)      { str += ", NOT LONG NOW! FeelsAmazingMan aryu5Aww" }
+            else if (days < 14)     { str += ", less than two weeks!! PogChamp" }
+            else if (days < 30)     { str += ", less than a month, not bad!" }
+            else if (days < 60)     { str += ", still quite a long time FeelsBadMan" }
+            else if (days > 60)     { str += ", that's over two months FeelsBadMan FeelsBadMan" }
+        }
 
         return str
     }
