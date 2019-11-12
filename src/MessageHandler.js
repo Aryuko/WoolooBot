@@ -34,6 +34,10 @@ class MessageHandler {
                     this.summonCommand(input.args ? input.args[0].toLowerCase() : '', channel, userstate.username)
                     break;
 
+                case 'mimi':
+                    this.client.say(channel, `Mimi is the cutest patoot ever and she deserves the comfiest wooloo hugs aryu5Love mimiscLove`)
+                    break;
+
                 default:
                     break;
             }
