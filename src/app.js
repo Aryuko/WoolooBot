@@ -9,10 +9,12 @@
 const tmi = require('tmi.js')
 const config = require('../config.js')
 const MessageHandler = require('./MessageHandler.js')
+const Database = require('./Database.js')
+const db = new Database()
 
 const client = new tmi.client(config)
 client.connect()
-let messageHandler = new MessageHandler(client, config)
+let messageHandler = new MessageHandler(client, config, db)
 
 client.on('chat', (channel, userstate, message, self) => {
     if (!self && message.length > 1) {

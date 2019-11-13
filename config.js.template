@@ -10,6 +10,13 @@ module.exports = {
 		password: "password", // https://twitchapps.com/tmi/
 	},
 	channels: ['channel'],
+	roles: {
+		0: 'owner',
+		1: 'editor',
+		2: 'moderator',
+		3: 'trusted'
+	},
+	owner: 'aryu',
 	cooldown: 5000,
 	summonCooldown: 300000,
 	commandPrefix: '!',

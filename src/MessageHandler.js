@@ -3,9 +3,10 @@ const fetch = require('node-fetch')
 
 module.exports = 
 class MessageHandler {
-    constructor (client, config) {
+    constructor (client, config, db) {
         this.client = client
         this.config = config
+        this.db = db
 
         this.discordHook = new wh.Webhook(config.webhookUrl)
 
@@ -20,7 +21,7 @@ class MessageHandler {
 
     handleMessage (message, channel, userstate) {
         let input = this.parseInput(message)
-        
+
         if(input && input.command) {
             console.log(input)
             switch (input.command) {
@@ -36,6 +37,10 @@ class MessageHandler {
 
                 case 'mimi':
                     this.client.say(channel, `Mimi is the cutest patoot ever and she deserves the comfiest wooloo hugs aryu5Love mimiscLove`)
+                    break;
+
+                case 'join':
+                    this.joinCommand(input.args ? input.args[0].toLowerCase() : '', channel, userstate.username)
                     break;
 
                 default:
@@ -121,7 +126,22 @@ class MessageHandler {
         }
     }
 
+    joinCommand(channelToJoin, channel, invoker) {
+        this.userIsAuthorized(invoker, 1)
+        //add to db
+        this.client.join(channelToJoin)
+    }
+
     /* utils */
+
+    userIsAuthorized(user, level) { // TODO: Make async/add callbacks
+        this.db.getUser(user, (result) => {
+            if(result) {
+                console.log(result.role <= level)
+                return result.role <= level
+            } else { return false }
+        })
+    }
 
     deepishContains(object, key) {
         for (let k in object) {
