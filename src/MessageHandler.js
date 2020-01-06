@@ -65,11 +65,10 @@ class MessageHandler {
             let releaseDate = false
             let gameString = false
             switch (game) {
-                case 'pokemon':
-                case 'pokémon':
-                    // November 15, 2019
-                    releaseDate = new Date('2019-11-15T03:00:00').getTime()
-                    gameString = 'Pokémon Sword and Shield is released in '
+                case 'cyberpunk':
+                    // April 16, 2020
+                    releaseDate = new Date('2020-04-16T03:00:00').getTime()
+                    gameString = 'Cyberpunk 2077 is released in '
                     break;
                     
                     case 'ac':
@@ -77,8 +76,9 @@ class MessageHandler {
                     // March 20, 2020
                     releaseDate = new Date('2020-03-20T03:00:00').getTime()
                     gameString = 'Animal Crossing: New Horizons is released in '
+                    break;
                 default:
-                    this.client.say(channel, `Invalid game D: List of valid games: 'ac', 'pokemon'`)
+                    this.client.say(channel, `Invalid game D: List of valid games: 'ac', 'cyberpunk'`)
                     return;
             }
             let timeString = this.timeToString(releaseDate - now, true)
@@ -149,7 +149,8 @@ class MessageHandler {
             else if (days < 14)     { str += ", less than two weeks!! PogChamp" }
             else if (days < 30)     { str += ", less than a month, not bad!" }
             else if (days < 60)     { str += ", still quite a long time FeelsBadMan" }
-            else if (days > 60)     { str += ", that's over two months FeelsBadMan FeelsBadMan" }
+            else if (days < 75)     { str += ", that's over two months FeelsBadMan FeelsBadMan" }
+            else if (days >= 75)    { str += ", that's a long time FeelsBadMan FeelsBadMan" }
         }
 
         return str
