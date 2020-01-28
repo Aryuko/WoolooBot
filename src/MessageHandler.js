@@ -114,7 +114,7 @@ class MessageHandler {
                     break;
 
                 default:
-                    this.client.say(channel, 'I only have permission to summon Aryu aryu5Cry')
+                    this.client.say(channel, 'I only have permission to summon Aryu :(')
                     break;
             }
             this.commandCooldowns.summon = now
