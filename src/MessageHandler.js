@@ -38,6 +38,11 @@ class MessageHandler {
                     this.client.say(channel, `Mimi is the cutest patoot ever and she deserves the comfiest wooloo hugs aryu5Love mimiscLove`)
                     break;
 
+                case 'aryutime':
+                    let locale = input.args ? (input.args[0] === 'ampm' ? 'en-US' : 'en-SE') : 'en-SE'
+                    let time = new Date().toLocaleTimeString(locale, {timeZone: 'Europe/Stockholm'})
+                    this.client.say(channel, `It is currently ${time} in Stockholm where Aryu lives aryu5Hypers`)
+
                 default:
                     break;
             }
